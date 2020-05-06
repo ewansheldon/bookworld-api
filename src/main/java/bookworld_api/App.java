@@ -1,8 +1,7 @@
 package bookworld_api;
 
-import spark.Filter;
-import spark.Spark;
 import com.google.gson.Gson;
+import spark.Spark;
 
 import java.util.HashMap;
 
