@@ -1,10 +1,12 @@
 package bookworld_api;
 
+import spark.Filter;
 import spark.Spark;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
 
+import static spark.Spark.after;
 import static spark.Spark.get;
 
 public class App {
@@ -13,8 +15,13 @@ public class App {
 
     public static void main(String[] strings) {
         Spark.port(getPort());
+
+        after((request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*");
+            response.header("Access-Control-Allow-Methods", "GET");
+        });
+
         get("books/:country_code", (req, res) -> {
-            System.out.println("hello");
             res.type("application/json");
             return new Gson().toJson(bookObject());
         });
