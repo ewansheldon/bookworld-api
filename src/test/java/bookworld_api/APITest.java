@@ -8,7 +8,7 @@ import static org.hamcrest.Matchers.*;
 class APITest {
 
     @Test
-    void run_this_test_and_pass() {
+    void should_get_book_from_country_code_endpoint() {
         App.main(new String[0]);
         given().port(80).when().request("GET", "/books/GBR")
                 .then().statusCode(200)
