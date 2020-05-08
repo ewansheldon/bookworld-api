@@ -31,6 +31,7 @@ public class App {
         HashMap<String, String> res = new HashMap();
         res.put("title", "Vile Bodies");
         res.put("author", "Evelyn Waugh");
+        res.put("publication_date", "1930");
         return res;
     }
 
