@@ -1,6 +1,7 @@
 package bookworld_api;
 
 import com.google.gson.Gson;
+import spark.Filter;
 import spark.Spark;
 
 import java.util.HashMap;
@@ -15,7 +16,7 @@ public class App {
     public static void main(String[] strings) {
         Spark.port(getPort());
 
-        after((request, response) -> {
+        after((Filter) (request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");
             response.header("Access-Control-Allow-Methods", "GET");
         });
