@@ -11,7 +11,7 @@ import static spark.Spark.get;
 
 public class App {
 
-    public static final int DEFAULT_PORT = 80;
+    public static final int DEFAULT_PORT = 8080;
 
     public static void main(String[] strings) {
         Spark.port(getPort());
