@@ -14,6 +14,6 @@ class APITest {
                 .then().statusCode(200)
                 .assertThat().body("title", equalTo("Vile Bodies"))
                 .assertThat().body("author", equalTo("Evelyn Waugh"))
-                .assertThat().body("pubication_date", equalTo("1930"));
+                .assertThat().body("publication_date", equalTo("1930"));
     }
 }
