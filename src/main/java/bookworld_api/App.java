@@ -5,6 +5,7 @@ import spark.Filter;
 import spark.Spark;
 
 import java.util.HashMap;
+import java.util.List;
 
 import static spark.Spark.after;
 import static spark.Spark.get;
@@ -24,6 +25,11 @@ public class App {
         get("books/:country_code", (req, res) -> {
             res.type("application/json");
             return new Gson().toJson(bookObject());
+        });
+
+        get("countries", (req, res) -> {
+            res.type("application/json");
+            return new Gson().toJson(List.of("GBR", "PRT", "AUS"));
         });
     }
 
