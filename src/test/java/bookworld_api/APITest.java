@@ -17,7 +17,7 @@ class APITest {
     void should_get_book_from_country_code_endpoint() {
         given().port(8080).when().request("GET", "/books/GBR")
                 .then().statusCode(200)
-                .assertThat().body("title", equalTo("Vile Bodies"))
+                .assertThat().body("ttle", equalTo("Vile Bodies"))
                 .assertThat().body("author", equalTo("Evelyn Waugh"))
                 .assertThat().body("publication_date", equalTo("1930"));
     }
