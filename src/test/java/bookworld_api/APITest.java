@@ -16,7 +16,7 @@ class APITest {
 
   @Test
   void should_get_book_from_country_code_endpoint() {
-    given().port(8080).when().request("GET", "/books/GBR")
+    given().port(8080).when().get("/books/GBR")
         .then().statusCode(200)
         .assertThat().body("title", equalTo("Vile Bodies"))
         .assertThat().body("author", equalTo("Evelyn Waugh"))
@@ -25,7 +25,7 @@ class APITest {
 
   @Test
   void should_get_countries_where_books_are_from() {
-    given().port(8080).when().request("GET", "/countries")
+    given().port(8080).when().get("/countries")
         .then().statusCode(200)
         .assertThat().body("", hasItems("GBR", "PRT", "AUS"));
   }
