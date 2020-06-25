@@ -16,7 +16,7 @@ public class CountriesStepDefinitions {
   @Given("there is a book from {string}")
   public void thereIsABookFrom(String country) {
     Book book = new Book("Vile Bodies", "Evelyn Waugh", country);
-    given().port(8080).body(book).when().post("POST", "/books").then().statusCode(201);
+    given().port(8080).body(book).when().post("/books").then().statusCode(201);
   }
 
   @When("the user fetches all countries")
