@@ -15,7 +15,7 @@ public class CountriesStepDefinitions {
 
   @Given("there is a book from {string}")
   public void thereIsABookFrom(String country) {
-    Book book = new Book("Vile Bodies", "Evelyn Waugh", country);
+    Book book = new Book("Vile Bodies", "Evelyn Waugh", "1930", country);
     given().port(8080).body(book).when().post("/books").then().statusCode(201);
   }
 
