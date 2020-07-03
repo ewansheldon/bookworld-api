@@ -4,16 +4,25 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 
 import bookworld_api.Book;
+import bookworld_api.services.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 public class BookController {
+
+  private BookService bookService;
+
+  public BookController(BookService bookService) {
+    this.bookService = bookService;
+  }
+
   public void routes() {
     post("/books", (req, res) -> {
+      res.type("application/json");
       ObjectMapper objectMapper = new ObjectMapper();
       Book book = objectMapper.readValue(req.body(), Book.class);
       res.status(201);
-      return book;
+      return new Gson().toJson(bookService.createBook(book));
     });
 
     get("books/:country_code", (req, res) -> {

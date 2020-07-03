@@ -4,7 +4,6 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasItems;
 import static org.mockito.Mockito.when;
 
-import bookworld_api.App;
 import bookworld_api.services.CountryService;
 import java.util.Collections;
 import java.util.List;
@@ -18,6 +17,7 @@ import spark.Spark;
 @ExtendWith(MockitoExtension.class)
 public class CountryControllerTest {
 
+  public static final int PORT = 8080;
   private CountryController countryController;
 
   @Mock
@@ -25,7 +25,7 @@ public class CountryControllerTest {
 
   @BeforeEach
   void setUp() {
-    Spark.port(8080);
+    Spark.port(PORT);
     countryController = new CountryController(countryService);
     countryController.routes();
   }
@@ -35,7 +35,7 @@ public class CountryControllerTest {
     List<String> countries = Collections.singletonList("GBR");
     when(countryService.getAll()).thenReturn(countries);
 
-    given().port(8080).when().get("/countries")
+    given().port(PORT).when().get("/countries")
         .then().statusCode(200)
         .assertThat().body("", hasItems("GBR"));
   }

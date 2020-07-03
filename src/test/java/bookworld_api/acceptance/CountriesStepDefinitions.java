@@ -26,6 +26,6 @@ public class CountriesStepDefinitions {
 
   @Then("the user receives {string} in the list of countries")
   public void theUserReceivesInTheListOfCountries(String country) {
-    res.then().statusCode(200).assertThat().body("", hasItems("GBR", "PRT", "AUS"));
+    res.then().statusCode(200).assertThat().body("", hasItems(country));
   }
 }
