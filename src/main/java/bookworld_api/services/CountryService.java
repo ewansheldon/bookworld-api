@@ -1,17 +1,16 @@
 package bookworld_api.services;
 
-import bookworld_api.repositories.CountryRepository;
 import java.util.List;
 
 public class CountryService {
 
-  private CountryRepository countryRepository;
+  private BookService bookService;
 
-  public CountryService(CountryRepository countryRepository) {
-    this.countryRepository = countryRepository;
+  public CountryService(BookService bookService) {
+    this.bookService = bookService;
   }
 
   public List<String> getAll() {
-    return countryRepository.getAll();
+    return bookService.getCountries();
   }
 }

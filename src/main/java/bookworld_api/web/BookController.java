@@ -22,7 +22,7 @@ public class BookController {
       ObjectMapper objectMapper = new ObjectMapper();
       Book book = objectMapper.readValue(req.body(), Book.class);
       res.status(201);
-      return new Gson().toJson(bookService.createBook(book));
+      return new Gson().toJson(bookService.create(book));
     });
 
     get("books/:country_code", (req, res) -> {

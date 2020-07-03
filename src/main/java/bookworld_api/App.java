@@ -3,7 +3,8 @@ package bookworld_api;
 import static spark.Spark.after;
 import static spark.Spark.port;
 
-import bookworld_api.repositories.InMemoryCountryRepository;
+import bookworld_api.repositories.BookRepository;
+import bookworld_api.repositories.InMemoryBookRepository;
 import bookworld_api.services.BookService;
 import bookworld_api.services.CountryService;
 import bookworld_api.web.BookController;
@@ -21,12 +22,12 @@ public class App {
       response.header("Access-Control-Allow-Methods", "*");
     });
 
-    BookService bookService = new BookService();
+    BookRepository bookRepository = new InMemoryBookRepository();
+    BookService bookService = new BookService(bookRepository);
     BookController bookController = new BookController(bookService);
     bookController.routes();
 
-    InMemoryCountryRepository countryRepository = new InMemoryCountryRepository();
-    CountryService countryService = new CountryService(countryRepository);
+    CountryService countryService = new CountryService(bookService);
     CountryController countryController = new CountryController(countryService);
     countryController.routes();
   }
