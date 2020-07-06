@@ -17,6 +17,6 @@ public class BookService {
   }
 
   public List<String> getCountries() {
-    throw new UnsupportedOperationException();
+    return bookRepository.getCountries();
   }
 }

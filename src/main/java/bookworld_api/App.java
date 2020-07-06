@@ -1,7 +1,6 @@
 package bookworld_api;
 
 import static spark.Spark.after;
-import static spark.Spark.port;
 
 import bookworld_api.repositories.BookRepository;
 import bookworld_api.repositories.InMemoryBookRepository;
@@ -9,13 +8,14 @@ import bookworld_api.services.BookService;
 import bookworld_api.services.CountryService;
 import bookworld_api.web.BookController;
 import bookworld_api.web.CountryController;
+import spark.Spark;
 
 public class App {
 
   public static final int DEFAULT_PORT = 8080;
 
   public static void main(String[] strings) {
-    port(getPort());
+    Spark.port(getPort());
 
     after((request, response) -> {
       response.header("Access-Control-Allow-Origin", "*");
