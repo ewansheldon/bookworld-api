@@ -1,6 +1,6 @@
 package bookworld_api.repositories;
 
-import bookworld_api.Book;
+import bookworld_api.entities.Book;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

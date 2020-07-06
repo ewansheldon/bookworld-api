@@ -3,7 +3,7 @@ package bookworld_api.web;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
-import bookworld_api.Book;
+import bookworld_api.entities.Book;
 import bookworld_api.services.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;

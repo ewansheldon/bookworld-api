@@ -3,7 +3,7 @@ package bookworld_api.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import bookworld_api.Book;
+import bookworld_api.entities.Book;
 import bookworld_api.repositories.BookRepository;
 import java.util.Collections;
 import java.util.List;

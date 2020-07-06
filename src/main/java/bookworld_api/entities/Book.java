@@ -1,4 +1,4 @@
-package bookworld_api;
+package bookworld_api.entities;
 
 public class Book {
 

@@ -1,6 +1,6 @@
 package bookworld_api.services;
 
-import bookworld_api.Book;
+import bookworld_api.entities.Book;
 import bookworld_api.repositories.BookRepository;
 import java.util.List;
 

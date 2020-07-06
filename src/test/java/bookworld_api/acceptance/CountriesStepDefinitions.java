@@ -3,7 +3,7 @@ package bookworld_api.acceptance;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasItems;
 
-import bookworld_api.Book;
+import bookworld_api.entities.Book;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
