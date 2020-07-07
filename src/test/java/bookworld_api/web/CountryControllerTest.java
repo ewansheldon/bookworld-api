@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import spark.Spark;
 
 @ExtendWith(MockitoExtension.class)
 public class CountryControllerTest {
@@ -31,7 +32,7 @@ public class CountryControllerTest {
     List<String> countries = Collections.singletonList("GBR");
     when(countryService.getAll()).thenReturn(countries);
 
-    given().port(4567).when().get("/countries")
+    given().port(Spark.port()).when().get("/countries")
         .then().statusCode(200)
         .assertThat().body("", hasItems("GBR"));
   }
