@@ -7,6 +7,7 @@ import bookworld_api.entities.Book;
 import bookworld_api.services.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import spark.Spark;
 
 public class BookController {
 
@@ -14,9 +15,10 @@ public class BookController {
 
   public BookController(BookService bookService) {
     this.bookService = bookService;
+    createRoutes();
   }
 
-  public void routes() {
+  public void createRoutes() {
     post("/books", (req, res) -> {
       res.type("application/json");
       ObjectMapper objectMapper = new ObjectMapper();
@@ -27,11 +29,9 @@ public class BookController {
 
     get("books/:country_code", (req, res) -> {
       res.type("application/json");
-      return new Gson().toJson(bookObject());
+      return new Gson().toJson(bookService.getBookFrom(req.params("country_code")));
     });
-  }
 
-  private static Book bookObject() {
-    return new Book("Vile Bodies", "Evelyn Waugh", "1930", "GBR");
+    Spark.awaitInitialization();
   }
 }

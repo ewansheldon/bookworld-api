@@ -2,6 +2,7 @@ package bookworld_api;
 
 import static spark.Spark.after;
 
+import bookworld_api.entities.Book;
 import bookworld_api.repositories.BookRepository;
 import bookworld_api.repositories.InMemoryBookRepository;
 import bookworld_api.services.BookService;
@@ -24,15 +25,15 @@ public class App {
 
     BookRepository bookRepository = new InMemoryBookRepository();
     BookService bookService = new BookService(bookRepository);
-    BookController bookController = new BookController(bookService);
-    bookController.routes();
+    new BookController(bookService);
 
     CountryService countryService = new CountryService(bookService);
-    CountryController countryController = new CountryController(countryService);
-    countryController.routes();
+    new CountryController(countryService);
+
+    bookService.create(new Book("Vile Bodies", "Evelyn Waugh", "1930", "GBR"));
   }
 
-  private static int getPort() {
+  public static int getPort() {
     String port = System.getenv("PORT");
     if (port != null) {
       return Integer.parseInt(port);

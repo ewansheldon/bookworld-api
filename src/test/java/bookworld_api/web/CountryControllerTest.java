@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.hasItems;
 import static org.mockito.Mockito.when;
 
 import bookworld_api.services.CountryService;
+import bookworld_api.util.Server;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,20 +13,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import spark.Spark;
 
 @ExtendWith(MockitoExtension.class)
 public class CountryControllerTest {
-
-  private CountryController countryController;
 
   @Mock
   CountryService countryService;
 
   @BeforeEach
   void setUp() {
-    countryController = new CountryController(countryService);
-    countryController.routes();
+    Server.stop();
+    new CountryController(countryService);
   }
 
   @Test
@@ -33,7 +31,7 @@ public class CountryControllerTest {
     List<String> countries = Collections.singletonList("GBR");
     when(countryService.getAll()).thenReturn(countries);
 
-    given().port(Spark.port()).when().get("/countries")
+    given().port(4567).when().get("/countries")
         .then().statusCode(200)
         .assertThat().body("", hasItems("GBR"));
   }
