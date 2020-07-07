@@ -32,6 +32,6 @@ public class CountryServiceTest {
 
     List<String> response = countryService.getAll();
     assertEquals(response.size(), 1);
-    assertEquals(response.get(0), gbr);
+    assertEquals(response.get(1), gbr);
   }
 }
