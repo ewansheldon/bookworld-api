@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import bookworld_api.entities.Book;
+import bookworld_api.exceptions.CountryNotValidException;
 import bookworld_api.services.BookService;
 import bookworld_api.util.Server;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,5 +37,13 @@ public class BookControllerTest {
         .assertThat().body("title", equalTo(book.getTitle()))
         .assertThat().body("author", equalTo(book.getAuthor()))
         .assertThat().body("publicationDate", equalTo(book.getPublicationDate()));
+  }
+
+  @Test
+  void returns_error_status_and_message_when_invalid_country_error() throws CountryNotValidException {
+    String country = "xxx";
+    when(bookService.getBookFrom(country)).thenThrow(new CountryNotValidException());
+    given().port(Spark.port()).when().get("/books/" + country).then().statusCode(422).assertThat()
+        .body(equalTo("Requested country is not valid"));
   }
 }

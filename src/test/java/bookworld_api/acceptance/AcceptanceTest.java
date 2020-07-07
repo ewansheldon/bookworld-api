@@ -43,7 +43,11 @@ public class AcceptanceTest {
         .assertThat().body("country", equalTo("GBR"));
   }
 
-
+  @Test
+  void returns_error_when_requested_country_is_not_valid() {
+    given().port(Spark.port()).when().get("/books/xxx").then().statusCode(422).assertThat()
+        .body(equalTo("Requested country is not valid"));
+  }
 
   @Test
   void fetches_all_countries_that_books_are_tagged_in() {
