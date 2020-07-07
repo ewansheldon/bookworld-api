@@ -1,5 +1,6 @@
 package bookworld_api.web;
 
+import static bookworld_api.web.JsonStringifier.stringify;
 import static spark.Spark.exception;
 import static spark.Spark.get;
 import static spark.Spark.post;
@@ -26,13 +27,13 @@ public class BookController {
       ObjectMapper objectMapper = new ObjectMapper();
       Book book = objectMapper.readValue(req.body(), Book.class);
       res.status(201);
-      return new Gson().toJson(bookService.create(book));
+      return stringify(bookService.create(book));
     });
 
     get("books/:country_code", (req, res) -> {
       res.type("application/json");
       Book book = bookService.getBookFrom(req.params("country_code"));
-      return new Gson().toJson(book);
+      return stringify(book);
     });
 
     exception(CountryNotValidException.class, (e, req, res) -> {
