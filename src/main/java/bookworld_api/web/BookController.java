@@ -9,7 +9,6 @@ import bookworld_api.entities.Book;
 import bookworld_api.exceptions.CountryNotValidException;
 import bookworld_api.services.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import spark.Spark;
 
 public class BookController {
