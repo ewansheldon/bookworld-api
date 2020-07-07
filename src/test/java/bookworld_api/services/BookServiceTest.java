@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import bookworld_api.entities.Book;
+import bookworld_api.exceptions.CountryNotValidException;
 import bookworld_api.repositories.BookRepository;
 import java.util.Collections;
 import java.util.List;
@@ -47,5 +48,16 @@ public class BookServiceTest {
 
     assertEquals(1, response.size());
     assertEquals(BOOK.getCountry(), response.get(0));
+  }
+
+  @Test
+  void gets_book_from_country_from_repository() throws CountryNotValidException {
+    when(bookRepository.getBookByCountry(BOOK.getCountry())).thenReturn(BOOK);
+    Book response = bookService.getBookFrom(BOOK.getCountry());
+
+    assertEquals(BOOK.getTitle(), response.getTitle());
+    assertEquals(BOOK.getAuthor(), response.getAuthor());
+    assertEquals(BOOK.getPublicationDate(), response.getPublicationDate());
+    assertEquals(BOOK.getCountry(), response.getCountry());
   }
 }
