@@ -25,7 +25,7 @@ public class InMemoryBookRepository implements BookRepository {
   }
 
   public Book getBookByCountry(String country_code) throws CountryNotValidException {
-    Optional<Book> book = books.stream().filter(b -> b.getCountry().equals(country_code)).findFirst();
+    Optional<Book> book = books.stream().filter(b -> b.getCountry().toLowerCase().equals(country_code.toLowerCase())).findFirst();
     if (book.isEmpty()) {
       throw new CountryNotValidException();
     } else {

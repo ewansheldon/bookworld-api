@@ -31,7 +31,6 @@ public class BookController {
 
     get("books/:country_code", (req, res) -> {
       res.type("application/json");
-      System.out.println(req.params("country_code"));
       Book book = bookService.getBookFrom(req.params("country_code"));
       return new Gson().toJson(book);
     });
