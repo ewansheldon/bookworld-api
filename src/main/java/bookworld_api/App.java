@@ -2,9 +2,11 @@ package bookworld_api;
 
 import static spark.Spark.after;
 
-import bookworld_api.entities.Book;
+import bookworld_api.factories.BookFactory;
+import bookworld_api.integrations.BookDataIntegration;
 import bookworld_api.repositories.BookRepository;
 import bookworld_api.repositories.InMemoryBookRepository;
+import bookworld_api.request_objects.BookRequestObject;
 import bookworld_api.services.BookService;
 import bookworld_api.services.CountryService;
 import bookworld_api.web.BookController;
@@ -24,13 +26,15 @@ public class App {
     });
 
     BookRepository bookRepository = new InMemoryBookRepository();
-    BookService bookService = new BookService(bookRepository);
+    BookDataIntegration bookDataIntegration = new BookDataIntegration();
+    BookFactory bookFactory = new BookFactory();
+    BookService bookService = new BookService(bookRepository, bookDataIntegration, bookFactory);
     new BookController(bookService);
 
     CountryService countryService = new CountryService(bookService);
     new CountryController(countryService);
 
-    bookService.create(new Book("Vile Bodies", "Evelyn Waugh", "1930", "GBR"));
+    bookService.create(new BookRequestObject("Vile Bodies", "Evelyn Waugh", "GBR"));
   }
 
   public static int getPort() {

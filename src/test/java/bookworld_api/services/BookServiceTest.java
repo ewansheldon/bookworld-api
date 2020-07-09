@@ -5,7 +5,11 @@ import static org.mockito.Mockito.when;
 
 import bookworld_api.entities.Book;
 import bookworld_api.exceptions.CountryNotValidException;
+import bookworld_api.factories.BookFactory;
+import bookworld_api.integrations.BookDataIntegration;
+import bookworld_api.integrations.BookDataResponseObject;
 import bookworld_api.repositories.BookRepository;
+import bookworld_api.request_objects.BookRequestObject;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,17 +26,25 @@ public class BookServiceTest {
 
   @Mock
   private BookRepository bookRepository;
+  @Mock
+  private BookDataIntegration bookDataIntegration;
+  @Mock
+  private BookFactory bookFactory;
 
   @BeforeEach
   void setUp() {
-    bookService = new BookService(bookRepository);
+    bookService = new BookService(bookRepository, bookDataIntegration, bookFactory);
   }
 
   @Test
-  void creates_a_book_with_book_repository() {
+  void fetches_book_data_and_creates_a_book_with_book_repository() {
+    BookDataResponseObject bookDataResponse = new BookDataResponseObject("test description", "test thumbnail");
+    BookRequestObject request = new BookRequestObject("Vile Bodies", "Evelyn Waugh", "GBR");
+    when(bookDataIntegration.get(request)).thenReturn(bookDataResponse);
+    when(bookFactory.create(request, bookDataResponse)).thenReturn(BOOK);
     when(bookRepository.create(BOOK)).thenReturn(BOOK);
 
-    Book response = bookService.create(BOOK);
+    Book response = bookService.create(request);
 
     assertEquals(BOOK.getTitle(), response.getTitle());
     assertEquals(BOOK.getAuthor(), response.getAuthor());

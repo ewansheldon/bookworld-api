@@ -7,6 +7,7 @@ import static spark.Spark.post;
 
 import bookworld_api.entities.Book;
 import bookworld_api.exceptions.CountryNotValidException;
+import bookworld_api.request_objects.BookRequestObject;
 import bookworld_api.services.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import spark.Spark;
@@ -24,9 +25,10 @@ public class BookController {
     post("/books", (req, res) -> {
       res.type("application/json");
       ObjectMapper objectMapper = new ObjectMapper();
-      Book book = objectMapper.readValue(req.body(), Book.class);
+      BookRequestObject request = objectMapper.readValue(req.body(), BookRequestObject.class);
+      System.out.println(request);
       res.status(201);
-      return stringify(bookService.create(book));
+      return stringify(bookService.create(request));
     });
 
     get("books/:country_code", (req, res) -> {

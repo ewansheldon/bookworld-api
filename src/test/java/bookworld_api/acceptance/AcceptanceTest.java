@@ -5,8 +5,11 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 
 import bookworld_api.entities.Book;
+import bookworld_api.factories.BookFactory;
+import bookworld_api.integrations.BookDataIntegration;
 import bookworld_api.repositories.BookRepository;
 import bookworld_api.repositories.InMemoryBookRepository;
+import bookworld_api.request_objects.BookRequestObject;
 import bookworld_api.services.BookService;
 import bookworld_api.services.CountryService;
 import bookworld_api.util.Server;
@@ -25,7 +28,9 @@ public class AcceptanceTest {
     Server.stop();
 
     BookRepository bookRepository = new InMemoryBookRepository();
-    BookService bookService = new BookService(bookRepository);
+    BookDataIntegration bookDataIntegration = new BookDataIntegration();
+    BookFactory bookFactory = new BookFactory();
+    BookService bookService = new BookService(bookRepository, bookDataIntegration, bookFactory);
     new BookController(bookService);
 
     CountryService countryService = new CountryService(bookService);
@@ -34,7 +39,8 @@ public class AcceptanceTest {
 
   @Test
   void fetches_a_book_from_requested_country() {
-    given().port(Spark.port()).body(BOOK).when().post("/books");
+    BookRequestObject request = new BookRequestObject(BOOK.getTitle(), BOOK.getAuthor(), BOOK.getCountry());
+    given().port(Spark.port()).body(request).when().post("/books");
 
     given().port(Spark.port()).when().get("/books/" + BOOK.getCountry()).then().statusCode(200).assertThat()
         .body("title", equalTo("Vile Bodies"))
@@ -51,7 +57,8 @@ public class AcceptanceTest {
 
   @Test
   void fetches_all_countries_that_books_are_tagged_in() {
-    given().port(Spark.port()).body(BOOK).when().post("/books");
+    BookRequestObject request = new BookRequestObject(BOOK.getTitle(), BOOK.getAuthor(), BOOK.getCountry());
+    given().port(Spark.port()).body(request).when().post("/books");
 
     given().port(Spark.port()).when().get("/countries").then().statusCode(200).assertThat().body("", hasItems(BOOK.getCountry()));
   }
