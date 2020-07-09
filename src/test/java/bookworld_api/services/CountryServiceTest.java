@@ -1,10 +1,19 @@
 package bookworld_api.services;
 
+import static bookworld_api.web.JsonHandler.getJsonFrom;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,5 +42,11 @@ public class CountryServiceTest {
     List<String> response = countryService.getAll();
     assertEquals(response.size(), 1);
     assertEquals(response.get(0), gbr);
+  }
+
+  @Test
+  void dummy_good_reads_requests() throws IOException, JSONException {
+    JSONObject object = getJsonFrom("https://www.googleapis.com/books/v1/volumes?q=vile+bodies+evelyn+waugh");
+    System.out.println(object.getJSONArray("items").getJSONObject(0).toString());
   }
 }

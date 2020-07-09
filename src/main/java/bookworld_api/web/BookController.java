@@ -1,6 +1,6 @@
 package bookworld_api.web;
 
-import static bookworld_api.web.JsonStringifier.stringify;
+import static bookworld_api.web.JsonHandler.stringify;
 import static spark.Spark.exception;
 import static spark.Spark.get;
 import static spark.Spark.post;
