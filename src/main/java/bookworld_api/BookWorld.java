@@ -15,7 +15,7 @@ import java.io.IOException;
 import org.json.JSONException;
 import spark.Spark;
 
-public class App {
+public class BookWorld {
 
   public static final int DEFAULT_PORT = 8080;
 

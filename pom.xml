@@ -28,7 +28,7 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <mainClass>bookworld_api.App</mainClass>
+              <mainClass>bookworld_api.BookWorld</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
