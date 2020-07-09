@@ -40,7 +40,7 @@ public class BookServiceTest {
 
   @Test
   void fetches_book_data_and_creates_a_book_with_book_repository() throws IOException, JSONException {
-    BookDataResponseObject bookDataResponse = new BookDataResponseObject("test description", "test thumbnail");
+    BookDataResponseObject bookDataResponse = new BookDataResponseObject(BOOK.getDescription(), BOOK.getThumbnail());
     BookRequestObject request = new BookRequestObject("Vile Bodies", "Evelyn Waugh", "GBR");
     when(bookDataIntegration.get(request)).thenReturn(bookDataResponse);
     when(bookFactory.create(request, bookDataResponse)).thenReturn(BOOK);

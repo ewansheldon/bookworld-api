@@ -3,6 +3,7 @@ package bookworld_api.acceptance;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.notNullValue;
 
 import bookworld_api.factories.BookFactory;
 import bookworld_api.integrations.BookDataIntegration;
@@ -40,11 +41,12 @@ public class AcceptanceTest {
   void fetches_a_book_from_requested_country() {
     given().port(Spark.port()).body(BOOK_REQUEST).when().post("/books");
 
-    given().port(Spark.port()).when().get("/books/" + BOOK_REQUEST.getCountry()).then().statusCode(200).assertThat()
-        .body("title", equalTo("Vile Bodies"))
+    given().port(Spark.port()).when().get("/books/" + BOOK_REQUEST.getCountry()).then().statusCode(200)
+        .assertThat().body("title", equalTo("Vile Bodies"))
         .assertThat().body("author", equalTo("Evelyn Waugh"))
-        .assertThat().body("publicationDate", equalTo("1930"))
-        .assertThat().body("country", equalTo("GBR"));
+        .assertThat().body("country", equalTo("GBR"))
+        .assertThat().body("description", notNullValue())
+        .assertThat().body("thumbnail", notNullValue());
   }
 
   @Test
