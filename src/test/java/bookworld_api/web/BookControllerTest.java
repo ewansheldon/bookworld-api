@@ -10,6 +10,8 @@ import bookworld_api.exceptions.CountryNotValidException;
 import bookworld_api.request_objects.BookRequestObject;
 import bookworld_api.services.BookService;
 import bookworld_api.util.Server;
+import java.io.IOException;
+import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,15 +32,17 @@ public class BookControllerTest {
   }
 
   @Test
-  void saves_new_book_with_country_service() {
+  void saves_new_book_with_country_service() throws IOException, JSONException {
     BookRequestObject request = new BookRequestObject("Vile Bodies", "Evelyn Waugh", "GBR");
-    Book book = new Book("Vile Bodies", "Evelyn Waugh", "1930", "GBR");
+    Book book = new Book("Vile Bodies", "Evelyn Waugh", "GBR", "book description", "book-thumbnail");
     when(bookService.create(any(BookRequestObject.class))).thenReturn(book);
     given().port(Spark.port()).body(request).when().post("/books")
         .then().statusCode(201)
         .assertThat().body("title", equalTo(book.getTitle()))
         .assertThat().body("author", equalTo(book.getAuthor()))
-        .assertThat().body("publicationDate", equalTo(book.getPublicationDate()));
+        .assertThat().body("country", equalTo(book.getCountry()))
+        .assertThat().body("description", equalTo(book.getDescription()))
+        .assertThat().body("thumbnail", equalTo(book.getThumbnail()));
   }
 
   @Test

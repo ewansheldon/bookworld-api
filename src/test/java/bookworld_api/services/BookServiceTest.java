@@ -10,8 +10,10 @@ import bookworld_api.integrations.BookDataIntegration;
 import bookworld_api.integrations.BookDataResponseObject;
 import bookworld_api.repositories.BookRepository;
 import bookworld_api.request_objects.BookRequestObject;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class BookServiceTest {
 
-  public final Book BOOK = new Book("Vile Bodies", "Evelyn Waugh", "1930", "GBR");
+  public final Book BOOK = new Book("Vile Bodies", "Evelyn Waugh", "GBR", "Book description", "book-thumbnail");
   private BookService bookService;
 
   @Mock
@@ -37,7 +39,7 @@ public class BookServiceTest {
   }
 
   @Test
-  void fetches_book_data_and_creates_a_book_with_book_repository() {
+  void fetches_book_data_and_creates_a_book_with_book_repository() throws IOException, JSONException {
     BookDataResponseObject bookDataResponse = new BookDataResponseObject("test description", "test thumbnail");
     BookRequestObject request = new BookRequestObject("Vile Bodies", "Evelyn Waugh", "GBR");
     when(bookDataIntegration.get(request)).thenReturn(bookDataResponse);
@@ -46,10 +48,11 @@ public class BookServiceTest {
 
     Book response = bookService.create(request);
 
-    assertEquals(BOOK.getTitle(), response.getTitle());
-    assertEquals(BOOK.getAuthor(), response.getAuthor());
-    assertEquals(BOOK.getPublicationDate(), response.getPublicationDate());
-    assertEquals(BOOK.getCountry(), response.getCountry());
+    assertEquals(request.getTitle(), response.getTitle());
+    assertEquals(request.getAuthor(), response.getAuthor());
+    assertEquals(request.getCountry(), response.getCountry());
+    assertEquals(bookDataResponse.description, response.getDescription());
+    assertEquals(bookDataResponse.thumbnail, response.getThumbnail());
   }
 
   @Test
@@ -69,7 +72,8 @@ public class BookServiceTest {
 
     assertEquals(BOOK.getTitle(), response.getTitle());
     assertEquals(BOOK.getAuthor(), response.getAuthor());
-    assertEquals(BOOK.getPublicationDate(), response.getPublicationDate());
     assertEquals(BOOK.getCountry(), response.getCountry());
+    assertEquals(BOOK.getDescription(), response.getDescription());
+    assertEquals(BOOK.getThumbnail(), response.getThumbnail());
   }
 }

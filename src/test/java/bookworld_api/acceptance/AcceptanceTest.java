@@ -4,7 +4,6 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 
-import bookworld_api.entities.Book;
 import bookworld_api.factories.BookFactory;
 import bookworld_api.integrations.BookDataIntegration;
 import bookworld_api.repositories.BookRepository;
@@ -21,7 +20,7 @@ import spark.Spark;
 
 public class AcceptanceTest {
 
-  public static final Book BOOK = new Book("Vile Bodies", "Evelyn Waugh", "1930", "GBR");
+  public static final BookRequestObject BOOK_REQUEST = new BookRequestObject("Vile Bodies", "Evelyn Waugh", "GBR");
 
   @BeforeAll
   static void beforeAll() {
@@ -39,10 +38,9 @@ public class AcceptanceTest {
 
   @Test
   void fetches_a_book_from_requested_country() {
-    BookRequestObject request = new BookRequestObject(BOOK.getTitle(), BOOK.getAuthor(), BOOK.getCountry());
-    given().port(Spark.port()).body(request).when().post("/books");
+    given().port(Spark.port()).body(BOOK_REQUEST).when().post("/books");
 
-    given().port(Spark.port()).when().get("/books/" + BOOK.getCountry()).then().statusCode(200).assertThat()
+    given().port(Spark.port()).when().get("/books/" + BOOK_REQUEST.getCountry()).then().statusCode(200).assertThat()
         .body("title", equalTo("Vile Bodies"))
         .assertThat().body("author", equalTo("Evelyn Waugh"))
         .assertThat().body("publicationDate", equalTo("1930"))
@@ -57,9 +55,8 @@ public class AcceptanceTest {
 
   @Test
   void fetches_all_countries_that_books_are_tagged_in() {
-    BookRequestObject request = new BookRequestObject(BOOK.getTitle(), BOOK.getAuthor(), BOOK.getCountry());
-    given().port(Spark.port()).body(request).when().post("/books");
+    given().port(Spark.port()).body(BOOK_REQUEST).when().post("/books");
 
-    given().port(Spark.port()).when().get("/countries").then().statusCode(200).assertThat().body("", hasItems(BOOK.getCountry()));
+    given().port(Spark.port()).when().get("/countries").then().statusCode(200).assertThat().body("", hasItems(BOOK_REQUEST.getCountry()));
   }
 }

@@ -4,17 +4,19 @@ public class Book {
 
   private String title;
   private String author;
-  private String publicationDate;
   private String country;
-
-  public Book(String title, String author, String publicationDate, String country) {
-    this.title = title;
-    this.author = author;
-    this.publicationDate = publicationDate;
-    this.country = country;
-  }
+  private String description;
+  private String thumbnail;
 
   public Book() {
+  }
+
+  public Book(String title, String author, String country, String description, String thumbnail) {
+    this.title = title;
+    this.author = author;
+    this.country = country;
+    this.description = description;
+    this.thumbnail = thumbnail;
   }
 
   public String getTitle() {
@@ -25,11 +27,15 @@ public class Book {
     return author;
   }
 
-  public String getPublicationDate() {
-    return publicationDate;
-  }
-
   public String getCountry() {
     return country;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public String getThumbnail() {
+    return thumbnail;
   }
 }

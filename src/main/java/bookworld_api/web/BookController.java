@@ -26,7 +26,6 @@ public class BookController {
       res.type("application/json");
       ObjectMapper objectMapper = new ObjectMapper();
       BookRequestObject request = objectMapper.readValue(req.body(), BookRequestObject.class);
-      System.out.println(request);
       res.status(201);
       return stringify(bookService.create(request));
     });

@@ -7,6 +7,6 @@ import bookworld_api.request_objects.BookRequestObject;
 public class BookFactory {
 
   public Book create(BookRequestObject request, BookDataResponseObject bookDataResponse) {
-    throw new UnsupportedOperationException();
+    return new Book(request.getTitle(), request.getAuthor(), request.getCountry(), bookDataResponse.description, bookDataResponse.thumbnail);
   }
 }

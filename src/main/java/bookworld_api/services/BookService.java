@@ -7,7 +7,9 @@ import bookworld_api.integrations.BookDataIntegration;
 import bookworld_api.integrations.BookDataResponseObject;
 import bookworld_api.repositories.BookRepository;
 import bookworld_api.request_objects.BookRequestObject;
+import java.io.IOException;
 import java.util.List;
+import org.json.JSONException;
 
 public class BookService {
 
@@ -21,7 +23,7 @@ public class BookService {
     this.bookFactory = bookFactory;
   }
 
-  public Book create(BookRequestObject request) {
+  public Book create(BookRequestObject request) throws IOException, JSONException {
     BookDataResponseObject bookDataResponse = bookDataIntegration.get(request);
     Book book = bookFactory.create(request, bookDataResponse);
     return bookRepository.create(book);
