@@ -30,7 +30,7 @@ public class PostgresBookRepository implements BookRepository {
 
   public Book getBookByCountry(String country_code) throws CountryNotValidException, SQLException {
     PreparedStatement preparedStatement = psqlConnection().prepareStatement(BOOK_BY_COUNTRY);
-    preparedStatement.setString(1, country_code);
+    preparedStatement.setString(1, country_code.toUpperCase());
     ResultSet resultSet = preparedStatement.executeQuery();
     if (resultSet.next()) {
       return new Book(

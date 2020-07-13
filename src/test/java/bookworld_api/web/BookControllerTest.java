@@ -11,6 +11,7 @@ import bookworld_api.request_objects.BookRequestObject;
 import bookworld_api.services.BookService;
 import bookworld_api.util.Server;
 import java.io.IOException;
+import java.sql.SQLException;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,7 +47,8 @@ public class BookControllerTest {
   }
 
   @Test
-  void returns_error_status_and_message_when_invalid_country_error() throws CountryNotValidException {
+  void returns_error_status_and_message_when_invalid_country_error()
+      throws CountryNotValidException, SQLException {
     String country = "xxx";
     when(bookService.getBookFrom(country)).thenThrow(new CountryNotValidException());
     given().port(Spark.port()).when().get("/books/" + country).then().statusCode(422).assertThat()
