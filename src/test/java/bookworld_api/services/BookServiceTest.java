@@ -11,6 +11,7 @@ import bookworld_api.integrations.BookDataResponseObject;
 import bookworld_api.repositories.BookRepository;
 import bookworld_api.request_objects.BookRequestObject;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 import org.json.JSONException;
@@ -56,7 +57,7 @@ public class BookServiceTest {
   }
 
   @Test
-  void gets_countries_from_repository() {
+  void gets_countries_from_repository() throws SQLException {
     List<String> countries = Collections.singletonList("GBR");
     when(bookRepository.getCountries()).thenReturn(countries);
     List<String> response = bookService.getCountries();
@@ -66,7 +67,7 @@ public class BookServiceTest {
   }
 
   @Test
-  void gets_book_from_country_from_repository() throws CountryNotValidException {
+  void gets_book_from_country_from_repository() throws CountryNotValidException, SQLException {
     when(bookRepository.getBookByCountry(BOOK.getCountry())).thenReturn(BOOK);
     Book response = bookService.getBookFrom(BOOK.getCountry());
 

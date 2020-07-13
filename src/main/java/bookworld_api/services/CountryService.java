@@ -1,5 +1,6 @@
 package bookworld_api.services;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class CountryService {
@@ -10,7 +11,7 @@ public class CountryService {
     this.bookService = bookService;
   }
 
-  public List<String> getAll() {
+  public List<String> getAll() throws SQLException {
     return bookService.getCountries();
   }
 }

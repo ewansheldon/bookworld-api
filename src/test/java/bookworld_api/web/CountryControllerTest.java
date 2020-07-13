@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import bookworld_api.services.CountryService;
 import bookworld_api.util.Server;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +29,7 @@ public class CountryControllerTest {
   }
 
   @Test
-  void gets_all_countries_from_country_service() {
+  void gets_all_countries_from_country_service() throws SQLException {
     List<String> countries = Collections.singletonList("GBR");
     when(countryService.getAll()).thenReturn(countries);
 

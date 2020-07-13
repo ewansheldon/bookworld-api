@@ -5,7 +5,7 @@ import static spark.Spark.after;
 import bookworld_api.factories.BookFactory;
 import bookworld_api.integrations.BookDataIntegration;
 import bookworld_api.repositories.BookRepository;
-import bookworld_api.repositories.InMemoryBookRepository;
+import bookworld_api.repositories.PostgresBookRepository;
 import bookworld_api.request_objects.BookRequestObject;
 import bookworld_api.services.BookService;
 import bookworld_api.services.CountryService;
@@ -27,7 +27,7 @@ public class BookWorld {
       response.header("Access-Control-Allow-Methods", "*");
     });
 
-    BookRepository bookRepository = new InMemoryBookRepository();
+    BookRepository bookRepository = new PostgresBookRepository();
     BookDataIntegration bookDataIntegration = new BookDataIntegration();
     BookFactory bookFactory = new BookFactory();
     BookService bookService = new BookService(bookRepository, bookDataIntegration, bookFactory);

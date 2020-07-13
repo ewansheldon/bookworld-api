@@ -8,6 +8,7 @@ import bookworld_api.integrations.BookDataResponseObject;
 import bookworld_api.repositories.BookRepository;
 import bookworld_api.request_objects.BookRequestObject;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import org.json.JSONException;
 
@@ -29,11 +30,11 @@ public class BookService {
     return bookRepository.create(book);
   }
 
-  public List<String> getCountries() {
+  public List<String> getCountries() throws SQLException {
     return bookRepository.getCountries();
   }
 
-  public Book getBookFrom(String country_code) throws CountryNotValidException {
+  public Book getBookFrom(String country_code) throws CountryNotValidException, SQLException {
     return bookRepository.getBookByCountry(country_code);
   }
 }

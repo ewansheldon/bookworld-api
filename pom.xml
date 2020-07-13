@@ -115,6 +115,12 @@
       <artifactId>android-json</artifactId>
       <version>0.0.20131108.vaadin1</version>
     </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.2.14</version>
+    </dependency>
+
   </dependencies>
 
 

@@ -4,12 +4,8 @@ import static bookworld_api.web.JsonHandler.getJsonFrom;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 import org.json.JSONException;
@@ -34,7 +30,7 @@ public class CountryServiceTest {
   }
 
   @Test
-  void returns_all_countries_from_book_service() {
+  void returns_all_countries_from_book_service() throws SQLException {
     String gbr = "GBR";
     List<String> countries = Collections.singletonList(gbr);
     when(bookService.getCountries()).thenReturn(countries);
