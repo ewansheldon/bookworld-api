@@ -33,7 +33,7 @@ public class BookControllerTest {
   }
 
   @Test
-  void saves_new_book_with_country_service() throws IOException, JSONException {
+  void saves_new_book_with_country_service() throws IOException, JSONException, SQLException {
     BookRequestObject request = new BookRequestObject("Vile Bodies", "Evelyn Waugh", "GBR");
     Book book = new Book("Vile Bodies", "Evelyn Waugh", "GBR", "book description", "book-thumbnail");
     when(bookService.create(any(BookRequestObject.class))).thenReturn(book);

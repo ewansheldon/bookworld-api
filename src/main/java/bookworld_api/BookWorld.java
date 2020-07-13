@@ -12,6 +12,7 @@ import bookworld_api.services.CountryService;
 import bookworld_api.web.BookController;
 import bookworld_api.web.CountryController;
 import java.io.IOException;
+import java.sql.SQLException;
 import org.json.JSONException;
 import spark.Spark;
 
@@ -19,7 +20,7 @@ public class BookWorld {
 
   public static final int DEFAULT_PORT = 8080;
 
-  public static void main(String[] strings) throws IOException, JSONException {
+  public static void main(String[] strings) throws IOException, JSONException, SQLException {
     Spark.port(getPort());
 
     after((request, response) -> {

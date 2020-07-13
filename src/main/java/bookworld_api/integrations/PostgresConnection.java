@@ -11,8 +11,8 @@ public class PostgresConnection {
     if (connection == null) {
       try {
         connection = DriverManager.getConnection(
-            "jdbc:postgresql://localhost:5432/bookworld", "user",
-            "password"
+            System.getenv("DB_URL"), System.getenv("DB_USER"),
+            System.getenv("DB_PASSWORD")
         );
       } catch (SQLException e) {
         e.printStackTrace();

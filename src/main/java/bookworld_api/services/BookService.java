@@ -24,7 +24,7 @@ public class BookService {
     this.bookFactory = bookFactory;
   }
 
-  public Book create(BookRequestObject request) throws IOException, JSONException {
+  public Book create(BookRequestObject request) throws IOException, JSONException, SQLException {
     BookDataResponseObject bookDataResponse = bookDataIntegration.get(request);
     Book book = bookFactory.create(request, bookDataResponse);
     return bookRepository.create(book);

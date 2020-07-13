@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BookRepository {
 
-  Book create(Book book);
+  Book create(Book book) throws SQLException;
 
   List<String> getCountries() throws SQLException;
 
