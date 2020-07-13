@@ -20,7 +20,7 @@ public class BookWorld {
 
   public static final int DEFAULT_PORT = 8080;
 
-  public static void main(String[] strings) throws IOException, JSONException, SQLException {
+  public static void main(String[] strings) {
     Spark.port(getPort());
 
     after((request, response) -> {
@@ -36,8 +36,6 @@ public class BookWorld {
 
     CountryService countryService = new CountryService(bookService);
     new CountryController(countryService);
-
-    bookService.create(new BookRequestObject("Vile Bodies", "Evelyn Waugh", "GBR"));
   }
 
   public static int getPort() {
