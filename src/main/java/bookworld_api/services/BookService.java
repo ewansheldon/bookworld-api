@@ -35,6 +35,10 @@ public class BookService {
   }
 
   public Book getBookFrom(String country_code) throws CountryNotValidException, SQLException {
-    return bookRepository.getBookByCountry(country_code);
+    return bookRepository.getByCountry(country_code);
+  }
+
+  public List<Book> getAllBooks() throws SQLException {
+    return bookRepository.getAll();
   }
 }

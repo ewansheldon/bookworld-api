@@ -69,7 +69,7 @@ public class BookServiceTest {
 
   @Test
   void gets_book_from_country_from_repository() throws CountryNotValidException, SQLException {
-    when(bookRepository.getBookByCountry(BOOK.getCountry())).thenReturn(BOOK);
+    when(bookRepository.getByCountry(BOOK.getCountry())).thenReturn(BOOK);
     Book response = bookService.getBookFrom(BOOK.getCountry());
 
     assertEquals(BOOK.getTitle(), response.getTitle());
@@ -77,5 +77,19 @@ public class BookServiceTest {
     assertEquals(BOOK.getCountry(), response.getCountry());
     assertEquals(BOOK.getDescription(), response.getDescription());
     assertEquals(BOOK.getThumbnail(), response.getThumbnail());
+  }
+
+  @Test
+  void gets_all_books_from_repository() throws SQLException {
+    when(bookRepository.getAll()).thenReturn(Collections.singletonList(BOOK));
+    List<Book> response = bookService.getAllBooks();
+
+    assertEquals(1, response.size());
+    Book book = response.get(0);
+    assertEquals(BOOK.getTitle(), book.getTitle());
+    assertEquals(BOOK.getAuthor(), book.getAuthor());
+    assertEquals(BOOK.getCountry(), book.getCountry());
+    assertEquals(BOOK.getDescription(), book.getDescription());
+    assertEquals(BOOK.getThumbnail(), book.getThumbnail());
   }
 }

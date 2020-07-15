@@ -12,6 +12,7 @@ import java.util.List;
 
 public class PostgresBookRepository implements BookRepository {
 
+  private final String BOOKS_LIST = "SELECT * FROM books;";
   private final String COUNTRIES_LIST = "SELECT DISTINCT country FROM books;";
   private final String BOOK_BY_COUNTRY = "SELECT * FROM books WHERE country = ? LIMIT 1;";
   private final String CREATE_BOOK = "INSERT INTO books (title,author,country,description,thumbnail) "
@@ -29,7 +30,7 @@ public class PostgresBookRepository implements BookRepository {
   }
 
   public List<String> getCountries() throws SQLException {
-    ArrayList<String> countries = new ArrayList<>();
+    List<String> countries = new ArrayList<>();
     ResultSet resultSet = psqlConnection().createStatement().executeQuery(COUNTRIES_LIST);
     while (resultSet.next()) {
       countries.add(resultSet.getString("country"));
@@ -37,7 +38,7 @@ public class PostgresBookRepository implements BookRepository {
     return countries;
   }
 
-  public Book getBookByCountry(String country_code) throws CountryNotValidException, SQLException {
+  public Book getByCountry(String country_code) throws CountryNotValidException, SQLException {
     PreparedStatement preparedStatement = psqlConnection().prepareStatement(BOOK_BY_COUNTRY);
     preparedStatement.setString(1, country_code.toUpperCase());
     ResultSet resultSet = preparedStatement.executeQuery();
@@ -50,6 +51,20 @@ public class PostgresBookRepository implements BookRepository {
     } else {
       throw new CountryNotValidException();
     }
+  }
+
+  public List<Book> getAll() throws SQLException {
+    List<Book> books = new ArrayList<>();
+    ResultSet resultSet = psqlConnection().createStatement().executeQuery(BOOKS_LIST);
+    while (resultSet.next()) {
+      books.add(new Book(
+          resultSet.getString("title"), resultSet.getString("author"),
+          resultSet.getString("country"), resultSet.getString("description"),
+          resultSet.getString("thumbnail")
+      ));
+    }
+
+    return books;
   }
 
 }

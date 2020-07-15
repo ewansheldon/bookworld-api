@@ -24,7 +24,7 @@ public class InMemoryBookRepository implements BookRepository {
     return books.stream().map(Book::getCountry).collect(Collectors.toList());
   }
 
-  public Book getBookByCountry(String country_code) throws CountryNotValidException {
+  public Book getByCountry(String country_code) throws CountryNotValidException {
     Optional<Book> book = books.stream()
         .filter(b -> b.getCountry().toUpperCase().equals(country_code.toUpperCase())).findFirst();
     if (book.isEmpty()) {
@@ -32,5 +32,9 @@ public class InMemoryBookRepository implements BookRepository {
     } else {
       return book.get();
     }
+  }
+
+  public List<Book> getAll() {
+    return books;
   }
 }

@@ -11,5 +11,7 @@ public interface BookRepository {
 
   List<String> getCountries() throws SQLException;
 
-  Book getBookByCountry(String country_code) throws CountryNotValidException, SQLException;
+  Book getByCountry(String country_code) throws CountryNotValidException, SQLException;
+
+  List<Book> getAll() throws SQLException;
 }

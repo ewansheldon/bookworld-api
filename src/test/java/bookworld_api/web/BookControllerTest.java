@@ -2,6 +2,7 @@ package bookworld_api.web;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -12,6 +13,7 @@ import bookworld_api.services.BookService;
 import bookworld_api.util.Server;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Collections;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,9 @@ import spark.Spark;
 
 @ExtendWith(MockitoExtension.class)
 public class BookControllerTest {
+
+  private final Book BOOK = new Book("Vile Bodies", "Evelyn Waugh", "GBR", "description",
+      "thumnail");
 
   @Mock
   private BookService bookService;
@@ -35,7 +40,8 @@ public class BookControllerTest {
   @Test
   void saves_new_book_with_country_service() throws IOException, JSONException, SQLException {
     BookRequestObject request = new BookRequestObject("Vile Bodies", "Evelyn Waugh", "GBR");
-    Book book = new Book("Vile Bodies", "Evelyn Waugh", "GBR", "book description", "book-thumbnail");
+    Book book = new Book("Vile Bodies", "Evelyn Waugh", "GBR", "book description",
+        "book-thumbnail");
     when(bookService.create(any(BookRequestObject.class))).thenReturn(book);
     given().port(Spark.port()).body(request).when().post("/books")
         .then().statusCode(201)
@@ -47,11 +53,36 @@ public class BookControllerTest {
   }
 
   @Test
+  void gets_book_by_country() throws SQLException, CountryNotValidException {
+    String country = "GBR";
+    when(bookService.getBookFrom(country)).thenReturn(BOOK);
+    given().port(Spark.port()).when().get("/books/" + country).then().statusCode(200)
+        .assertThat().body("title", equalTo(BOOK.getTitle()))
+        .assertThat().body("author", equalTo(BOOK.getAuthor()))
+        .assertThat().body("country", equalTo(BOOK.getCountry()));
+  }
+
+  @Test
   void returns_error_status_and_message_when_invalid_country_error()
       throws CountryNotValidException, SQLException {
     String country = "xxx";
     when(bookService.getBookFrom(country)).thenThrow(new CountryNotValidException());
     given().port(Spark.port()).when().get("/books/" + country).then().statusCode(422).assertThat()
         .body(equalTo("Requested country is not valid"));
+  }
+
+  @Test
+  void returns_all_books() throws SQLException {
+    when(bookService.getAllBooks()).thenReturn(Collections.singletonList(BOOK));
+    Book[] books = given().port(Spark.port()).when().get("/books").then().statusCode(200)
+        .extract().as(Book[].class);
+
+    assertEquals(1, books.length);
+    Book book = books[0];
+    assertEquals(BOOK.getTitle(), book.getTitle());
+    assertEquals(BOOK.getAuthor(), book.getAuthor());
+    assertEquals(BOOK.getCountry(), book.getCountry());
+    assertEquals(BOOK.getDescription(), book.getDescription());
+    assertEquals(BOOK.getThumbnail(), book.getThumbnail());
   }
 }

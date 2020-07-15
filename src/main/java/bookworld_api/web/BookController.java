@@ -10,6 +10,7 @@ import bookworld_api.exceptions.CountryNotValidException;
 import bookworld_api.request_objects.BookRequestObject;
 import bookworld_api.services.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import spark.Spark;
 
 public class BookController {
@@ -30,10 +31,16 @@ public class BookController {
       return stringify(bookService.create(request));
     });
 
-    get("books/:country_code", (req, res) -> {
+    get("/books/:country_code", (req, res) -> {
       res.type("application/json");
       Book book = bookService.getBookFrom(req.params("country_code"));
       return stringify(book);
+    });
+
+    get("/books", (req, res) -> {
+      res.type("application/json");
+      List<Book> books = bookService.getAllBooks();
+      return stringify(books);
     });
 
     exception(CountryNotValidException.class, (e, req, res) -> {
