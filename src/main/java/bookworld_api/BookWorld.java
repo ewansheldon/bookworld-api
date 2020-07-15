@@ -1,20 +1,14 @@
 package bookworld_api;
 
-import static spark.Spark.after;
-import static spark.Spark.options;
-
 import bookworld_api.factories.BookFactory;
 import bookworld_api.integrations.BookDataIntegration;
 import bookworld_api.repositories.BookRepository;
 import bookworld_api.repositories.PostgresBookRepository;
-import bookworld_api.request_objects.BookRequestObject;
 import bookworld_api.services.BookService;
 import bookworld_api.services.CountryService;
 import bookworld_api.web.BookController;
+import bookworld_api.web.CorsConfig;
 import bookworld_api.web.CountryController;
-import java.io.IOException;
-import java.sql.SQLException;
-import org.json.JSONException;
 import spark.Spark;
 
 public class BookWorld {
@@ -24,23 +18,7 @@ public class BookWorld {
   public static void main(String[] strings) {
     Spark.port(getPort());
 
-    after((request, response) -> {
-      response.header("Access-Control-Allow-Origin", "*");
-      response.header("Access-Control-Allow-Methods", "*");
-    });
-
-    options("/*", (request,response)->{
-      String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
-      if (accessControlRequestHeaders != null) {
-        response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
-      }
-      String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
-      if(accessControlRequestMethod != null){
-        response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
-      }
-
-      return "OK";
-    });
+    CorsConfig.configure();
 
     BookRepository bookRepository = new PostgresBookRepository();
     BookDataIntegration bookDataIntegration = new BookDataIntegration();
