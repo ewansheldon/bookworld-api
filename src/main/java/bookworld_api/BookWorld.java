@@ -1,6 +1,7 @@
 package bookworld_api;
 
 import static spark.Spark.after;
+import static spark.Spark.options;
 
 import bookworld_api.factories.BookFactory;
 import bookworld_api.integrations.BookDataIntegration;
@@ -26,6 +27,19 @@ public class BookWorld {
     after((request, response) -> {
       response.header("Access-Control-Allow-Origin", "*");
       response.header("Access-Control-Allow-Methods", "*");
+    });
+
+    options("/*", (request,response)->{
+      String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+      if (accessControlRequestHeaders != null) {
+        response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+      }
+      String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
+      if(accessControlRequestMethod != null){
+        response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+      }
+
+      return "OK";
     });
 
     BookRepository bookRepository = new PostgresBookRepository();
