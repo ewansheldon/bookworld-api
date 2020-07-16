@@ -56,9 +56,9 @@ public class BookController {
     });
 
     exception(UnauthorisedNicoUser.class, (e, req, res) -> {
-      res.status(422);
+      res.status(401);
       res.type("text/html");
-      res.body("User unauthorised");
+      res.body("Unauthorised");
     });
 
     Spark.awaitInitialization();
