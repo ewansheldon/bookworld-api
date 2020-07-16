@@ -9,6 +9,8 @@ import bookworld_api.services.CountryService;
 import bookworld_api.web.BookController;
 import bookworld_api.web.CorsConfig;
 import bookworld_api.web.CountryController;
+import bookworld_api.web.GoogleTokenAuthenticator;
+import bookworld_api.web.TokenAuthenticator;
 import spark.Spark;
 
 public class BookWorld {
@@ -24,7 +26,8 @@ public class BookWorld {
     BookDataIntegration bookDataIntegration = new BookDataIntegration();
     BookFactory bookFactory = new BookFactory();
     BookService bookService = new BookService(bookRepository, bookDataIntegration, bookFactory);
-    new BookController(bookService);
+    TokenAuthenticator tokenAuthenticator = new GoogleTokenAuthenticator();
+    new BookController(bookService, tokenAuthenticator);
 
     CountryService countryService = new CountryService(bookService);
     new CountryController(countryService);

@@ -11,14 +11,17 @@ import bookworld_api.request_objects.BookRequestObject;
 import bookworld_api.services.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
+import javax.management.remote.JMXAuthenticator;
 import spark.Spark;
 
 public class BookController {
 
   private BookService bookService;
+  private TokenAuthenticator tokenAuthenticator;
 
-  public BookController(BookService bookService) {
+  public BookController(BookService bookService, TokenAuthenticator tokenAuthenticator) {
     this.bookService = bookService;
+    this.tokenAuthenticator = tokenAuthenticator;
     createRoutes();
   }
 
@@ -38,6 +41,7 @@ public class BookController {
     });
 
     get("/books", (req, res) -> {
+      tokenAuthenticator.authenticate(req);
       res.type("application/json");
       List<Book> books = bookService.getAllBooks();
       return stringify(books);

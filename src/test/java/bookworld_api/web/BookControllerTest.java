@@ -30,11 +30,13 @@ public class BookControllerTest {
 
   @Mock
   private BookService bookService;
+  @Mock
+  private TokenAuthenticator tokenAuthenticator;
 
   @BeforeEach
   void setUp() {
     Server.stop();
-    new BookController(bookService);
+    new BookController(bookService, tokenAuthenticator);
   }
 
   @Test
