@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mock;
 
 import bookworld_api.entities.Book;
 import bookworld_api.factories.BookFactory;
@@ -38,7 +39,7 @@ public class AcceptanceTest {
     BookDataIntegration bookDataIntegration = new BookDataIntegration();
     BookFactory bookFactory = new BookFactory();
     BookService bookService = new BookService(bookRepository, bookDataIntegration, bookFactory);
-    TokenAuthenticator tokenAuthenticator = new GoogleTokenAuthenticator();
+    TokenAuthenticator tokenAuthenticator = mock(TokenAuthenticator.class);
     new BookController(bookService, tokenAuthenticator);
 
     CountryService countryService = new CountryService(bookService);

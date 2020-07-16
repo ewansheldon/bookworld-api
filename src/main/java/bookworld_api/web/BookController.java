@@ -7,6 +7,7 @@ import static spark.Spark.post;
 
 import bookworld_api.entities.Book;
 import bookworld_api.exceptions.CountryNotValidException;
+import bookworld_api.exceptions.UnauthorisedNicoUser;
 import bookworld_api.request_objects.BookRequestObject;
 import bookworld_api.services.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +28,7 @@ public class BookController {
 
   public void createRoutes() {
     post("/books", (req, res) -> {
+      tokenAuthenticator.authenticate(req);
       res.type("application/json");
       ObjectMapper objectMapper = new ObjectMapper();
       BookRequestObject request = objectMapper.readValue(req.body(), BookRequestObject.class);
@@ -51,6 +53,12 @@ public class BookController {
       res.status(422);
       res.type("text/html");
       res.body(e.getMessage());
+    });
+
+    exception(UnauthorisedNicoUser.class, (e, req, res) -> {
+      res.status(422);
+      res.type("text/html");
+      res.body("User unauthorised");
     });
 
     Spark.awaitInitialization();
