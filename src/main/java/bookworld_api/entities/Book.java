@@ -2,6 +2,7 @@ package bookworld_api.entities;
 
 public class Book {
 
+  private int id;
   private String title;
   private String author;
   private String country;
@@ -17,6 +18,20 @@ public class Book {
     this.country = country;
     this.description = description;
     this.thumbnail = thumbnail;
+  }
+
+  public Book(int id, String title, String author, String country, String description,
+      String thumbnail) {
+    this.id = id;
+    this.title = title;
+    this.author = author;
+    this.country = country;
+    this.description = description;
+    this.thumbnail = thumbnail;
+  }
+
+  public int getId() {
+    return id;
   }
 
   public String getTitle() {

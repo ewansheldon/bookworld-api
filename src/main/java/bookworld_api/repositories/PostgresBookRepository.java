@@ -44,9 +44,9 @@ public class PostgresBookRepository implements BookRepository {
     ResultSet resultSet = preparedStatement.executeQuery();
     if (resultSet.next()) {
       return new Book(
-          resultSet.getString("title"), resultSet.getString("author"),
-          resultSet.getString("country"), resultSet.getString("description"),
-          resultSet.getString("thumbnail")
+          resultSet.getInt("id"), resultSet.getString("title"),
+          resultSet.getString("author"), resultSet.getString("country"),
+          resultSet.getString("description"), resultSet.getString("thumbnail")
       );
     } else {
       throw new CountryNotValidException();
@@ -58,9 +58,9 @@ public class PostgresBookRepository implements BookRepository {
     ResultSet resultSet = psqlConnection().createStatement().executeQuery(BOOKS_LIST);
     while (resultSet.next()) {
       books.add(new Book(
-          resultSet.getString("title"), resultSet.getString("author"),
-          resultSet.getString("country"), resultSet.getString("description"),
-          resultSet.getString("thumbnail")
+          resultSet.getInt("id"), resultSet.getString("title"),
+          resultSet.getString("author"), resultSet.getString("country"),
+          resultSet.getString("description"), resultSet.getString("thumbnail")
       ));
     }
 
