@@ -25,7 +25,7 @@ import spark.Spark;
 @ExtendWith(MockitoExtension.class)
 public class BookControllerTest {
 
-  private final Book BOOK = new Book("Vile Bodies", "Evelyn Waugh", "GBR", "description",
+  private final Book BOOK = new Book(1, "Vile Bodies", "Evelyn Waugh", "GBR", "description",
       "thumnail");
 
   @Mock
@@ -42,11 +42,12 @@ public class BookControllerTest {
   @Test
   void saves_new_book_with_country_service() throws IOException, JSONException, SQLException {
     BookRequestObject request = new BookRequestObject("Vile Bodies", "Evelyn Waugh", "GBR");
-    Book book = new Book("Vile Bodies", "Evelyn Waugh", "GBR", "book description",
+    Book book = new Book(1, "Vile Bodies", "Evelyn Waugh", "GBR", "book description",
         "book-thumbnail");
     when(bookService.create(any(BookRequestObject.class))).thenReturn(book);
     given().port(Spark.port()).body(request).when().post("/books")
         .then().statusCode(201)
+        .assertThat().body("id", equalTo((int) book.getId()))
         .assertThat().body("title", equalTo(book.getTitle()))
         .assertThat().body("author", equalTo(book.getAuthor()))
         .assertThat().body("country", equalTo(book.getCountry()))

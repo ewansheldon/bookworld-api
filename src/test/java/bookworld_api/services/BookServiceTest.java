@@ -24,7 +24,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class BookServiceTest {
 
-  public final Book BOOK = new Book("Vile Bodies", "Evelyn Waugh", "GBR", "Book description", "book-thumbnail");
+  public final Book BOOK = new Book(1, "Vile Bodies", "Evelyn Waugh", "GBR", "Book description", "book-thumbnail");
   private BookService bookService;
 
   @Mock
