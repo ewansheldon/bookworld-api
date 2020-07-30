@@ -7,9 +7,20 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import java.util.Collections;
+import java.util.List;
 import spark.Request;
 
 public class GoogleTokenAuthenticator implements TokenAuthenticator {
+
+  private List<String> allowedUsers;
+
+  public GoogleTokenAuthenticator() {
+    this.allowedUsers = createUserAllowlist();
+  }
+
+  private List<String> createUserAllowlist() {
+    return List.of(System.getenv("EWAN"), System.getenv("NICO"), System.getenv("LUCIE"));
+  }
 
   public void authenticate(Request req)
       throws UnauthorisedNicoUser {
@@ -18,10 +29,10 @@ public class GoogleTokenAuthenticator implements TokenAuthenticator {
       GoogleIdTokenVerifier verifier = buildGoogleIdTokenVerifier();
       GoogleIdToken idToken = verifier.verify(token);
       String email = idToken.getPayload().getEmail();
-      if (!email.equals(System.getenv("EWAN")) && !email.equals(System.getenv("NICO"))) {
+      if (!allowedUsers.contains(email)) {
         throw new UnauthorisedNicoUser();
       }
-    } catch(Exception e) {
+    } catch (Exception e) {
       throw new UnauthorisedNicoUser();
     }
   }
