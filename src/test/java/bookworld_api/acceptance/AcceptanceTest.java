@@ -110,7 +110,7 @@ public class AcceptanceTest {
     UpdateBookRequestObject updateRequest = new UpdateBookRequestObject(book.getId(), "new title",
         "new author", "ESP", "new description", "new thumbnail");
     Book updatedBook = given().port(Spark.port()).body(updateRequest).when()
-        .patch("/books" + book.getId())
+        .patch("/books/" + book.getId())
         .then().statusCode(200).extract().as(Book.class);
 
     assertEquals(book.getId(), updatedBook.getId());

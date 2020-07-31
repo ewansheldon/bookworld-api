@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import bookworld_api.entities.Book;
 import bookworld_api.exceptions.CountryNotValidException;
 import bookworld_api.request_objects.BookRequestObject;
+import bookworld_api.request_objects.UpdateBookRequestObject;
 import bookworld_api.services.BookService;
 import bookworld_api.util.Server;
 import java.io.IOException;
@@ -87,5 +88,25 @@ public class BookControllerTest {
     assertEquals(BOOK.getCountry(), book.getCountry());
     assertEquals(BOOK.getDescription(), book.getDescription());
     assertEquals(BOOK.getThumbnail(), book.getThumbnail());
+  }
+
+  @Test
+  void updates_a_book() {
+    UpdateBookRequestObject updateRequest = new UpdateBookRequestObject(BOOK.getId(), "new title",
+        "new author", "xxx", "new description", "new thumbnail");
+
+    Book updatedBook = new Book(BOOK.getId(), updateRequest.getTitle(), updateRequest.getAuthor(),
+        updateRequest.getCountry(), updateRequest.getDescription(), updateRequest.getThumbnail());
+
+    when(bookService.update(any(UpdateBookRequestObject.class))).thenReturn(updatedBook);
+    Book bookResponse = given().port(Spark.port()).body(updateRequest).when().patch("/books/" + BOOK.getId())
+        .then().statusCode(200).extract().as(Book.class);
+
+    assertEquals(bookResponse.getId(), BOOK.getId());
+    assertEquals(bookResponse.getTitle(), updateRequest.getTitle());
+    assertEquals(bookResponse.getAuthor(), updateRequest.getAuthor());
+    assertEquals(bookResponse.getCountry(), updateRequest.getCountry());
+    assertEquals(bookResponse.getDescription(), updateRequest.getDescription());
+    assertEquals(bookResponse.getThumbnail(), updateRequest.getThumbnail());
   }
 }

@@ -7,6 +7,7 @@ import bookworld_api.integrations.BookDataIntegration;
 import bookworld_api.integrations.BookDataResponseObject;
 import bookworld_api.repositories.BookRepository;
 import bookworld_api.request_objects.BookRequestObject;
+import bookworld_api.request_objects.UpdateBookRequestObject;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -40,5 +41,9 @@ public class BookService {
 
   public List<Book> getAllBooks() throws SQLException {
     return bookRepository.getAll();
+  }
+
+  public Book update(UpdateBookRequestObject request) {
+    throw new UnsupportedOperationException();
   }
 }

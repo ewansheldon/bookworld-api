@@ -10,12 +10,15 @@ import java.util.stream.Collectors;
 public class InMemoryBookRepository implements BookRepository {
 
   private List<Book> books;
+  private int id;
 
   public InMemoryBookRepository() {
     books = new ArrayList<>();
   }
 
   public Book create(Book book) {
+    book = new Book(++id, book.getTitle(), book.getAuthor(), book.getCountry(),
+        book.getDescription(), book.getThumbnail());
     books.add(book);
     return book;
   }
