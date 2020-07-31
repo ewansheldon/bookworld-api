@@ -44,7 +44,8 @@ public class BookService {
     return bookRepository.getAll();
   }
 
-  public Book update(long id, UpdateBookRequestObject request) throws InvalidBookException {
+  public Book update(long id, UpdateBookRequestObject request)
+      throws InvalidBookException, SQLException {
     return bookRepository.update(id, request);
   }
 }

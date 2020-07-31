@@ -39,10 +39,4 @@ public class CountryServiceTest {
     assertEquals(response.size(), 1);
     assertEquals(response.get(0), gbr);
   }
-
-  @Test
-  void dummy_good_reads_requests() throws IOException, JSONException {
-    JSONObject object = getJsonFrom("https://www.googleapis.com/books/v1/volumes?q=vile+bodies+evelyn+waugh");
-    System.out.println(object.getJSONArray("items").getJSONObject(0).toString());
-  }
 }

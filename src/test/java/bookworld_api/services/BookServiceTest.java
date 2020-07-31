@@ -98,7 +98,7 @@ public class BookServiceTest {
   }
 
   @Test
-  void updates_book_with_repository() throws InvalidBookException {
+  void updates_book_with_repository() throws InvalidBookException, SQLException {
     UpdateBookRequestObject updateRequest = new UpdateBookRequestObject(BOOK.getId(), "new title",
         "new author", "xxx", "new description", "new thumbnail");
     Book updatedBook = new Book(BOOK.getId(), updateRequest.getTitle(), updateRequest.getAuthor(),

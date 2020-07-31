@@ -56,7 +56,8 @@ public class BookController {
       res.type("application/json");
       ObjectMapper objectMapper = new ObjectMapper();
       UpdateBookRequestObject request = objectMapper.readValue(req.body(), UpdateBookRequestObject.class);
-      return stringify(bookService.update(Long.parseLong(req.params("id")), request));
+      Book book = bookService.update(Long.parseLong(req.params("id")), request);
+      return stringify(book);
     });
 
     exception(CountryNotValidException.class, (e, req, res) -> {

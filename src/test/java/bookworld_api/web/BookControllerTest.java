@@ -4,6 +4,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import bookworld_api.entities.Book;
@@ -92,14 +93,14 @@ public class BookControllerTest {
   }
 
   @Test
-  void updates_a_book() throws InvalidBookException {
+  void updates_a_book() throws InvalidBookException, SQLException {
     UpdateBookRequestObject updateRequest = new UpdateBookRequestObject(BOOK.getId(), "new title",
         "new author", "xxx", "new description", "new thumbnail");
 
     Book updatedBook = new Book(BOOK.getId(), updateRequest.getTitle(), updateRequest.getAuthor(),
         updateRequest.getCountry(), updateRequest.getDescription(), updateRequest.getThumbnail());
 
-    when(bookService.update(BOOK.getId(), any(UpdateBookRequestObject.class))).thenReturn(updatedBook);
+    when(bookService.update(eq(BOOK.getId()), any(UpdateBookRequestObject.class))).thenReturn(updatedBook);
     Book bookResponse = given().port(Spark.port()).body(updateRequest).when().patch("/books/" + BOOK.getId())
         .then().statusCode(200).extract().as(Book.class);
 

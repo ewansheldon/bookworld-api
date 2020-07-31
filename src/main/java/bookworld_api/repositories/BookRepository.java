@@ -17,5 +17,5 @@ public interface BookRepository {
 
   List<Book> getAll() throws SQLException;
 
-  Book update(Long id, UpdateBookRequestObject request) throws InvalidBookException;
+  Book update(Long id, UpdateBookRequestObject request) throws InvalidBookException, SQLException;
 }
