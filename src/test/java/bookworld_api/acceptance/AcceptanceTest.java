@@ -88,4 +88,17 @@ public class AcceptanceTest {
     assertNotNull(book.getDescription());
     assertNotNull(book.getThumbnail());
   }
+
+  @Test
+  void creates_a_book() {
+    Book book = given().port(Spark.port()).body(BOOK_REQUEST).when().post("/books").then()
+        .statusCode(201).assertThat()
+        .extract().as(Book.class);
+
+    assertEquals(BOOK_REQUEST.getTitle(), book.getTitle());
+    assertEquals(BOOK_REQUEST.getAuthor(), book.getAuthor());
+    assertEquals(BOOK_REQUEST.getCountry(), book.getCountry());
+    assertNotNull(book.getDescription());
+    assertNotNull(book.getThumbnail());
+  }
 }
