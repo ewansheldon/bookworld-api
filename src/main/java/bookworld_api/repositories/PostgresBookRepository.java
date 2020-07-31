@@ -4,6 +4,7 @@ import static bookworld_api.integrations.PostgresConnection.psqlConnection;
 
 import bookworld_api.entities.Book;
 import bookworld_api.exceptions.CountryNotValidException;
+import bookworld_api.request_objects.UpdateBookRequestObject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -65,6 +66,10 @@ public class PostgresBookRepository implements BookRepository {
     }
 
     return books;
+  }
+
+  public Book update(Long id, UpdateBookRequestObject request) {
+    throw new UnsupportedOperationException();
   }
 
 }

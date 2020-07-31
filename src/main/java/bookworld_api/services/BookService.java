@@ -2,6 +2,7 @@ package bookworld_api.services;
 
 import bookworld_api.entities.Book;
 import bookworld_api.exceptions.CountryNotValidException;
+import bookworld_api.exceptions.InvalidBookException;
 import bookworld_api.factories.BookFactory;
 import bookworld_api.integrations.BookDataIntegration;
 import bookworld_api.integrations.BookDataResponseObject;
@@ -43,7 +44,7 @@ public class BookService {
     return bookRepository.getAll();
   }
 
-  public Book update(UpdateBookRequestObject request) {
-    throw new UnsupportedOperationException();
+  public Book update(long id, UpdateBookRequestObject request) throws InvalidBookException {
+    return bookRepository.update(id, request);
   }
 }

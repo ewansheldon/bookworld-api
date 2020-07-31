@@ -2,12 +2,12 @@ package bookworld_api.request_objects;
 
 public class UpdateBookRequestObject {
 
-  private final long id;
-  private final String title;
-  private final String author;
-  private final String country;
-  private final String description;
-  private final String thumbnail;
+  private long id;
+  private String title;
+  private String author;
+  private String country;
+  private String description;
+  private String thumbnail;
 
   public UpdateBookRequestObject(long id, String title, String author, String country,
       String description, String thumbnail) {
@@ -17,6 +17,9 @@ public class UpdateBookRequestObject {
     this.country = country;
     this.description = description;
     this.thumbnail = thumbnail;
+  }
+
+  public UpdateBookRequestObject() {
   }
 
   public long getId() {
