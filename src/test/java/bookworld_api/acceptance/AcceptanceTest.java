@@ -15,6 +15,7 @@ import bookworld_api.integrations.BookDataIntegration;
 import bookworld_api.repositories.BookRepository;
 import bookworld_api.repositories.InMemoryBookRepository;
 import bookworld_api.request_objects.BookRequestObject;
+import bookworld_api.request_objects.UpdateBookRequestObject;
 import bookworld_api.services.BookService;
 import bookworld_api.services.CountryService;
 import bookworld_api.util.Server;
@@ -77,7 +78,7 @@ public class AcceptanceTest {
   void fetches_all_books() {
     given().port(Spark.port()).body(BOOK_REQUEST).when().post("/books");
 
-    Book[] books = given().port(Spark.port()).when().get("/books").then().statusCode(200).assertThat()
+    Book[] books = given().port(Spark.port()).when().get("/books").then().statusCode(200)
         .extract().as(Book[].class);
 
     assertEquals(1, books.length);
@@ -92,13 +93,31 @@ public class AcceptanceTest {
   @Test
   void creates_a_book() {
     Book book = given().port(Spark.port()).body(BOOK_REQUEST).when().post("/books").then()
-        .statusCode(201).assertThat()
-        .extract().as(Book.class);
+        .statusCode(201).extract().as(Book.class);
 
     assertEquals(BOOK_REQUEST.getTitle(), book.getTitle());
     assertEquals(BOOK_REQUEST.getAuthor(), book.getAuthor());
     assertEquals(BOOK_REQUEST.getCountry(), book.getCountry());
     assertNotNull(book.getDescription());
     assertNotNull(book.getThumbnail());
+  }
+
+  @Test
+  void updates_a_book() {
+    Book book = given().port(Spark.port()).body(BOOK_REQUEST).when().post("/books").then().extract()
+        .as(Book.class);
+
+    UpdateBookRequestObject updateRequest = new UpdateBookRequestObject(book.getId(), "new title",
+        "new author", "ESP", "new description", "new thumbnail");
+    Book updatedBook = given().port(Spark.port()).body(updateRequest).when()
+        .patch("/books" + book.getId())
+        .then().statusCode(200).extract().as(Book.class);
+
+    assertEquals(book.getId(), updatedBook.getId());
+    assertEquals(updateRequest.getTitle(), updatedBook.getTitle());
+    assertEquals(updateRequest.getAuthor(), updatedBook.getAuthor());
+    assertEquals(updateRequest.getCountry(), updatedBook.getCountry());
+    assertEquals(updateRequest.getDescription(), updatedBook.getDescription());
+    assertEquals(updateRequest.getThumbnail(), updatedBook.getThumbnail());
   }
 }
