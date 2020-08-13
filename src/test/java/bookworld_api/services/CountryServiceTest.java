@@ -1,15 +1,11 @@
 package bookworld_api.services;
 
-import static bookworld_api.web.JsonHandler.getJsonFrom;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
