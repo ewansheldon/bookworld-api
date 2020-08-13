@@ -16,12 +16,13 @@ public class PostgresBookRepository implements BookRepository {
 
   private final String BOOKS_LIST = "SELECT * FROM books ORDER BY id ASC;";
   private final String COUNTRIES_LIST = "SELECT DISTINCT country FROM books;";
-  private final String BOOK_BY_COUNTRY = "SELECT * FROM books WHERE country = ? LIMIT 1;";
+  private final String BOOK_BY_COUNTRY = "SELECT * FROM books WHERE country = ? ORDER BY RANDOM() LIMIT 1;";
   private final String CREATE_BOOK =
       "INSERT INTO books (title,author,country,description,thumbnail) "
           + "VALUES(?,?,?,?,?);";
-  private final String UPDATE_BOOK = "UPDATE books SET (title,author,country,description,thumbnail) = "
-      + "(?,?,?,?,?) WHERE id = ?;";
+  private final String UPDATE_BOOK =
+      "UPDATE books SET (title,author,country,description,thumbnail) = "
+          + "(?,?,?,?,?) WHERE id = ?;";
   private final String BOOK_BY_ID = "SELECT * FROM books WHERE id = ? LIMIT 1;";
   private final BookMapper bookMapper = new BookMapper();
 
