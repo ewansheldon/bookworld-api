@@ -14,7 +14,7 @@ import java.util.List;
 
 public class PostgresBookRepository implements BookRepository {
 
-  private final String BOOKS_LIST = "SELECT * FROM books ORDER BY country;";
+  private final String BOOKS_LIST = "SELECT * FROM books ORDER BY country, author;";
   private final String COUNTRIES_LIST = "SELECT DISTINCT country FROM books;";
   private final String BOOK_BY_COUNTRY = "SELECT * FROM books WHERE country = ? ORDER BY RANDOM() LIMIT 1;";
   private final String CREATE_BOOK =
