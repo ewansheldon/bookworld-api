@@ -38,13 +38,11 @@ public class PostgresBookRepository implements BookRepository {
   }
 
   public List<String> getCountries() throws SQLException {
-    System.out.println("started getting countries");
     List<String> countries = new ArrayList<>();
     ResultSet resultSet = psqlConnection().createStatement().executeQuery(COUNTRIES_LIST);
     while (resultSet.next()) {
       countries.add(resultSet.getString("country"));
     }
-    System.out.println("got the countries");
     return countries;
   }
 
